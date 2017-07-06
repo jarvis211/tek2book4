@@ -32,7 +32,7 @@ function isLoggedIn(req, res) {
 router
   .route('/dashboard')
   .get(function(req, res) {
-      if(isLoggedIn(req, res) && req.user.local.username === user)
+      if(isLoggedIn(req, res))
         res.render('manage', {
             title: 'Tek|Book',
             errors: null
@@ -129,7 +129,7 @@ router
 router
     .route('/showbooks')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Books.find({}, function(err, data) {
                 res.render('showbooks', {
                     title: 'Tek|Book',
@@ -142,7 +142,7 @@ router
 router
     .route('/edit/:id')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Books.findOne({ _id: req.params.id }, function(err, data) {
                 if(data === undefined) {
                     res.end();
@@ -157,7 +157,7 @@ router
         }      
     })
     .post(uploads.any(), function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Books.findOneAndUpdate({ _id: req.params.id }, { 
                 $set: { 
                     bookname: req.body.book_name,
@@ -187,7 +187,7 @@ router
 router
     .route('/delete/:id')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             var delBook = Books.findOne({ _id: req.params.id }, function(err, data) {
                 // The below statement is causing casttype error which is mongoose error.
                 // if(err)
@@ -200,10 +200,9 @@ router
                     delBook.remove(function(err) {
                         if (err)
                             throw err;
-                        if(isLoggedIn(req, res) && req.user) {
-                            res.end();
-                            res.redirect('/manage/showbooks');
-                        }
+                        
+                        res.end();
+                        res.redirect('/manage/showbooks');                   
                     })
                 }
                 
@@ -215,7 +214,7 @@ router
 router
     .route('/showcategory')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Category.find({}, function(err, data) {
                 res.render('showcategory', {
                     title: 'Tek|Book',
@@ -228,7 +227,7 @@ router
 router
     .route('/addcategory')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             res.render('addcategory', {
                 title: 'Tek|Book',
                 errors: []
@@ -236,7 +235,7 @@ router
         }
     })
     .post(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             var newCategory = new Category();
             newCategory.cno = req.body.CategoryNo;
             newCategory.name = req.body.CategoryName;
@@ -278,7 +277,7 @@ router
 router
     .route('/editcategory/:id')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Category.findOne({ cno: req.params.id }, function(err, data) {
                 if(err)
                     throw err;
@@ -297,7 +296,7 @@ router
         }
     })
     .post(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             Category.findOneAndUpdate({ cno: req.params.id }, { 
                 $set: { 
                     cno: req.body.CategoryNo, 
@@ -316,7 +315,7 @@ router
 router
     .route('/deletecategory/:id')
     .get(function(req, res) {
-        if(isLoggedIn(req, res) && req.user.local.username === user) {
+        if(isLoggedIn(req, res)) {
             var category = Category.findOne({ cno: req.params.id }, function(err, data) {
                 if(err)
                     throw err;
@@ -340,7 +339,7 @@ router
 router
   .route('/logout')
   .get(function(req, res) {
-      if(isLoggedIn(req, res) && req.user.local.username === user) {
+      if(isLoggedIn(req, res)) {
         req.logOut();
         res.redirect('/manage/admin');
       }
