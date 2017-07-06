@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('header') %>
+    <body>
+
+        <div id="wrapper">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">          
+                        <a class="navbar-brand navbar-link" href="/">
+                            <i class="fa fa-superpowers logo" aria-hidden="true"></i>
+                            <strong>Tek|Books</strong> 
+                        </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right"> 
+                            <li role="presentation"><i class="fa fa-home nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/"><strong>home </strong></a></li>
+                            <li role="presentation"><i class="fa fa-user nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/about"><strong>About </strong></a></li>
+                            <li role="presentation"><i class="fa fa-shopping-cart nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/cart"><strong>cart </strong></a></li>
+                            <% if(user === undefined) { %>
+                                <li role="presentation"><i class="fa fa-sign-in" aria-hidden="true"></i><a class="text-uppercase" href="/user/login"><strong>Login </strong></a></li>
+                            <% } %>
+                            <% if(user) { %>
+                                <li role="presentation"><i class="fa fa-sign-out" aria-hidden="true"></i><a class="text-uppercase" href="/user/logout"><strong>Logout</strong></a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="row">
+                <h1 class="text-uppercase">Cart</h1>
+            </div>
+            <div class="row table-header">
+                <div class="dcol cfix col-md-3">
+                    <label for="cover-image">Items</label>
+                </div>
+                <div class="dcol cfix col-md-3">
+                    <label for="details">Details</label>
+                </div>
+                <div class="dcol cfix col-md-3">
+                    <label for="price">Quantity</label>
+                </div>
+                <div class="dcol cfix col-md-1">
+                    <label for="edit">Amount</label>
+                </div>
+                <div class="dcol cfix col-md-1">
+                    <label for="delete">Delete</label>
+                </div>
+            </div>
+            <% if(books === undefined) { %>
+                <p>Your cart is empty</p>
+            <% } %>
+            <% for(var item in books) { %>
+                <div class="row show-cbooks cart-head">
+                    <div class="dcol col-md-3">
+                        <img src="/images/uploads/<%= books[item].coverdetails.filename %>" alt=<%= books[item].coverdetails.filename %>>
+                    </div>
+                    <div class="dcol book-desc col-md-3">
+                        <h2><%= books[item].bookname %></h3>
+                        <h4><%= books[item].author %></h2>
+                        <%- books[item].description %>
+                    </div>
+                    <div class="dcol fixp col-md-3">
+                        <p><%= books[item].quantity %></p>
+                    </div>
+                    <div class="dcol fixp col-md-1">
+                        <p style="margin-top: 70%;"><%= books[item].currency %><%= books[item].total %></p>
+                    </div>
+                    <div class="dcol fix col-md-1">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                        <a href="/cart/delete/<%= books[item]._id %>">Delete</a>
+                    </div>
+                </div>
+            <% } %>
+            <%- include('footer') %>
+        </div>
+
+        <script src="/javascripts/jquery.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/javascripts/script.js"></script>
+    
+    </body>
+</html>

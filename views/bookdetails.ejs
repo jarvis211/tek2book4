@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('header') %>
+    <body>
+
+        <div id="wrapper">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">          
+                        <a class="navbar-brand navbar-link" href="/">
+                            <i class="fa fa-superpowers logo" aria-hidden="true"></i>
+                            <strong>Tek|Books</strong> 
+                        </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right"> 
+                            <li role="presentation"><i class="fa fa-home nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/"><strong>home </strong></a></li>
+                            <li role="presentation"><i class="fa fa-user nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/about"><strong>About </strong></a></li>
+                            <li role="presentation"><i class="fa fa-shopping-cart nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/cart"><strong>cart </strong></a></li>
+                            <% if(user === undefined) { %>
+                                <li role="presentation"><i class="fa fa-sign-in" aria-hidden="true"></i><a class="text-uppercase" href="/user/login"><strong>Login </strong></a></li>
+                            <% } %>
+                            <% if(user) { %>
+                                <li role="presentation"><i class="fa fa-sign-out" aria-hidden="true"></i><a class="text-uppercase" href="/user/logout"><strong>Logout</strong></a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="details-header row">
+                <h1 class="text-uppercase">Book Details</h1>
+            </div>
+            <div class="details-body row">
+                <div class="detail-col6 col-md-6">
+                    <img src="/images/uploads/<%= book.coverdetails.filename %>" alt="/images/uploads/<%= book.coverdetails.filename %>" width="240" height="380">
+                </div>
+                <div class="detail-col5 col-md-5">
+                    <h4 class="text-uppercase"><%= book.bookname %></h4>
+                    <div class="form-group author">
+                        <label for="Author">Author:</label>
+                        <%= book.author %>
+                    </div>
+                    <div class="description"> 
+                        <%- book.description %> 
+                    </div>
+                    <p class="detail-buy">Buy it for &nbsp <span class="currency"><%= book.price %></span></p>
+                    <div class="buy-book">
+                        <a href="/cart/addcart/<%= book._id %>" class="text-uppercase button-cart">
+                        <i class="fa fa-shopping-cart buy-icon" aria-hidden="true"></i>Add To cart</a>
+                    </div>
+                    <div class="buy-book">
+                        <a href="/cart/addbook/<%= book._id %>" class="text-uppercase button-buy">
+                        <i class="fa fa-bolt buy-icon" aria-hidden="true"></i>Buy Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <%- include('footer') %>
+        </div>
+
+        <script src="/javascripts/jquery.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/javascripts/script.js"></script>
+    
+    </body>
+</html>

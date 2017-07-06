@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('header') %>
+    <body class="home">
+
+        <div id="wrapper">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">          
+                        <a class="navbar-brand navbar-link" href="/">
+                            <i class="fa fa-superpowers logo" aria-hidden="true"></i>
+                            <strong>Tek|Books</strong> 
+                        </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right"> 
+                            <li role="presentation"><i class="fa fa-home nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/"><strong>home </strong></a></li>
+                            <li role="presentation"><i class="fa fa-user nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/about"><strong>About </strong></a></li>
+                            <li role="presentation"><i class="fa fa-shopping-cart nav-icons" aria-hidden="true"></i><a class="text-uppercase" href="/cart"><strong>cart </strong></a></li>
+                            <% if(user === undefined) { %>
+                                <li role="presentation"><i class="fa fa-sign-in" aria-hidden="true"></i><a class="text-uppercase" href="/user/login"><strong>Login </strong></a></li>
+                            <% } %>
+                            <% if(user) { %>
+                                <li role="presentation"><i class="fa fa-sign-out" aria-hidden="true"></i><a class="text-uppercase" href="/user/logout"><strong>Logout</strong></a></li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <div>
+                <img class="img-responsive" src="/images/7453194616_6ba8a57690_b.jpg" width="100%" />
+                <div class="jumbotron">
+                    <h1 class="text-uppercase">Online Book Store</h1>
+                    <p class="tag">Edmonds Bookshop Finding good homes for books since 1972.</p>
+                    <a class="text-uppercase signup-btn" href="/user/signup"><strong>Signup </strong></a>
+                </div>
+            </div>
+            
+            <section>
+                <h1>List Of Books</h1>
+                <div class="underline"></div>
+                <% if(books.length) { %>
+                    <% var temp = 1 %>
+                    <% for(var i = 0; i < 2; i++) { %>
+                        <div class="row">
+                            <% for(var j = i*4; j < 4*temp; j++) { %>
+                                <div class="col-sm-3">
+                                    <img src="/images/uploads/<%= books[j].coverdetails.filename %>" width="210" height="320" />
+                                    <h4> <%= books[j].bookname %> </h4>
+                                    <div class="description"> 
+                                        <%- books[j].description %> 
+                                    </div>
+                                    <h5> Buy it for &nbsp;<span class="currency"><%= books[j].price %></span></h5>
+                                    <a href="/details/books/<%= books[j]._id %>" class="button">Book Details</a>
+                                </div>
+                            <% } %>
+                        </div>
+                        <% temp++ %>
+                    <% } %>
+                <% } %>
+                <div class="row view-btn">
+                    <a href="/books/store" class="button">View More</a>
+                </div>
+            </section>
+
+            <%- include('footer') %>
+        </div>
+
+        <script src="/javascripts/jquery.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/javascripts/script.js"></script>
+    
+    </body>
+</html>

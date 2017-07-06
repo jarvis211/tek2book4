@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('header') %>
+    <body>
+        <div id="wrapper">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">          
+                        <a class="navbar-brand navbar-link" href="/">
+                            <i class="fa fa-superpowers logo" aria-hidden="true"></i>
+                            <strong>Tek|Books</strong> 
+                        </a>
+                        <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav navbar-right"> 
+                            <li role="presentation"><i class="fa fa-desktop" aria-hidden="true"></i><a class="text-uppercase" href="/manage/dashboard"><strong>dashboard</strong></a></li>
+                            <li role="presentation"><i class="fa fa-book" aria-hidden="true"></i><a class="text-uppercase" href="/manage/showbooks"><strong>books</strong></a></li>
+                            <li role="presentation"><i class="fa fa-stack-exchange" aria-hidden="true"></i><a class="text-uppercase" href="/manage/showcategory"><strong>categories</strong></a></li>
+                            <li role="presentation"><i class="fa fa-sign-out" aria-hidden="true"></i><a class="text-uppercase" href="/manage/logout"><strong>Logout</strong></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            
+            <% if(errors) { %>
+                <div class="row errors">
+                    <% errors.forEach(function(error) { %>
+                        <p>* <%= error.msg %></p>
+                    <% }) %>
+                </div>
+            <% } %>
+            <div class="row">
+                <h3 class="text-uppercase">Edit Books</h3>
+            </div>
+
+            <form class="add-books" action="/manage/edit/<%= books._id %>" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="bookname">Book Name</label>
+                    <input type="text" placeholder="Name of the book" class="form-control" name="book_name" value="<%= books.bookname %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" placeholder="Author of the book" class="form-control" name="author" value="<%= books.author %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <select name="currency" class="currency-symbol">            
+                        <option value="Rs">Rs</option>
+                        <option value="$" selected>$</option>
+                        <option value="€">€</option>
+                        <option value="£">£</option>
+                        <option value="¥">¥</option>
+                    </select>
+                    <input type="number" placeholder="Price" class="price-input" name="price" value="<%= books.price.slice(2) %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="cover-image">Cover Image</label>
+                    <input type="file" class="form-control" name="mainimage" value="<%= books.coverdetails.filename %>">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" class="form-control" cols="30" rows="10"><%= books.description %></textarea>
+                </div>
+                
+                <input type="submit" value="Submit" class="btn btn-info">
+            </form>
+
+            <%- include('footer') %>
+        </div>
+
+        <script src="/javascripts/jquery.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/ckeditor/ckeditor.js"></script>
+        <script>
+            CKEDITOR.replace('description')
+        </script>
+        
+    </body>
+</html>
